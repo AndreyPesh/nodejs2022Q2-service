@@ -6,5 +6,6 @@ import { ArtistModel } from './model/artist-model';
 @Module({
   controllers: [ArtistsController],
   providers: [ArtistsService, ArtistModel],
+  exports: [ArtistModel]
 })
 export class ArtistsModule {}

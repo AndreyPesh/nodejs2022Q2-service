@@ -5,6 +5,7 @@ import { AlbumModel } from './model/album-model';
 
 @Module({
   controllers: [AlbumController],
-  providers: [AlbumService, AlbumModel]
+  providers: [AlbumService, AlbumModel],
+  exports: [AlbumModel]
 })
 export class AlbumModule {}
