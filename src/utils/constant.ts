@@ -7,11 +7,11 @@ export const USER_MESSAGE = {
 
 export const TRACK_MESSAGE = {
   not_found: 'Track not found',
-}
+};
 
 export const ALBUM_MESSAGE = {
   not_found: 'Album not found',
-}
+};
 
 export const ARTIST_MESSAGE = {
   no_fields_required: 'Request body does not contain required fields',

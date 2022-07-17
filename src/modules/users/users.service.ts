@@ -11,8 +11,8 @@ export class UsersService {
   constructor(private readonly userModel: UserModel) {}
   async getAllUsers() {
     const listUsers = await this.userModel.getAllUsers();
-    if(listUsers.length) {
-      listUsers.forEach(user => delete user.password);
+    if (listUsers.length) {
+      listUsers.forEach((user) => delete user.password);
     }
     return listUsers;
   }
@@ -31,7 +31,7 @@ export class UsersService {
     if (!userData) {
       throw new HttpException(USER_MESSAGE.not_found, HttpStatus.NOT_FOUND);
     }
-    const userDataWithoutPass = {...userData};
+    const userDataWithoutPass = { ...userData };
     delete userDataWithoutPass.password;
     return userDataWithoutPass;
   }

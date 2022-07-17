@@ -1,5 +1,10 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { ALBUM_MESSAGE, ARTIST_MESSAGE, TRACK_MESSAGE, USER_MESSAGE } from 'src/utils/constant';
+import {
+  ALBUM_MESSAGE,
+  ARTIST_MESSAGE,
+  TRACK_MESSAGE,
+  USER_MESSAGE,
+} from 'src/utils/constant';
 import { validateId } from 'src/utils/uuid';
 import { AlbumModel } from '../album/model/album-model';
 import { ArtistModel } from '../artists/model/artist-model';

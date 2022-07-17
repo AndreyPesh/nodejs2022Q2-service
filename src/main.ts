@@ -12,7 +12,7 @@ const PATH_TO_DOC = 'doc/api.yaml';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  
+
   const DESCRIPTOR_API = await readFile(join(rootDir, PATH_TO_DOC), 'utf-8');
   const document = parse(DESCRIPTOR_API);
   SwaggerModule.setup('doc', app, document);

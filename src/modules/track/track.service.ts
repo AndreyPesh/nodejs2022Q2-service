@@ -1,5 +1,9 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { ARTIST_MESSAGE, USER_MESSAGE, TRACK_MESSAGE } from 'src/utils/constant';
+import {
+  ARTIST_MESSAGE,
+  USER_MESSAGE,
+  TRACK_MESSAGE,
+} from 'src/utils/constant';
 import { validateDataTrack } from 'src/utils/track';
 import { validateId } from 'src/utils/uuid';
 import { FavsModel } from '../favs/model/favs-model';
