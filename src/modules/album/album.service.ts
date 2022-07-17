@@ -2,12 +2,18 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { validateDataAlbum } from 'src/utils/albums';
 import { ARTIST_MESSAGE, USER_MESSAGE } from 'src/utils/constant';
 import { validateId } from 'src/utils/uuid';
+import { FavsModel } from '../favs/model/favs-model';
+import { TrackModel } from '../track/model/track-model';
 import { CreateAlbumDto } from './dto/create-album-dto';
 import { AlbumModel } from './model/album-model';
 
 @Injectable()
 export class AlbumService {
-  constructor(private albumModel: AlbumModel) {}
+  constructor(
+    private albumModel: AlbumModel,
+    private trackModel: TrackModel,
+    private favsModel: FavsModel,
+  ) {}
   async getAllAlbum() {
     return this.albumModel.getAllAlbums();
   }
@@ -81,5 +87,17 @@ export class AlbumService {
     if (!isAlbumDeleted) {
       throw new HttpException(USER_MESSAGE.not_found, HttpStatus.NOT_FOUND);
     }
+    const listTracks = await this.trackModel.getAllTrack();
+    listTracks.forEach((track) => {
+      if (track.albumId === id) {
+        track.albumId = null;
+      }
+    });
+    const listFavs = await this.favsModel.getAllFavs();
+    listFavs.albums.forEach((album, index) => {
+      if (album.id === id) {
+        listFavs.albums.splice(index, 1);
+      }
+    });
   }
 }

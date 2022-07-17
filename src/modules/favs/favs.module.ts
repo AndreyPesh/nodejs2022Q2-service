@@ -9,6 +9,6 @@ import { FavsModel } from './model/favs-model';
 @Module({
   imports: [TrackModel, ArtistModel, AlbumModel],
   controllers: [FavsController],
-  providers: [FavsService, FavsModel, TrackModel, ArtistModel, AlbumModel]
+  providers: [FavsService, FavsModel, TrackModel, ArtistModel, AlbumModel],
 })
 export class FavsModule {}

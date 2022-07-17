@@ -8,7 +8,12 @@ import { FavsModel } from './model/favs-model';
 
 @Injectable()
 export class FavsService {
-  constructor(private favsModel: FavsModel, private trackModel: TrackModel, private artistModel: ArtistModel, private albumModel: AlbumModel) {}
+  constructor(
+    private favsModel: FavsModel,
+    private trackModel: TrackModel,
+    private artistModel: ArtistModel,
+    private albumModel: AlbumModel,
+  ) {}
 
   async getAllFavs() {
     return this.favsModel.getAllFavs();
@@ -31,7 +36,10 @@ export class FavsService {
     const trackData = await this.trackModel.getTrackById(id);
 
     if (!trackData) {
-      throw new HttpException(USER_MESSAGE.not_found, HttpStatus.UNPROCESSABLE_ENTITY);
+      throw new HttpException(
+        USER_MESSAGE.not_found,
+        HttpStatus.UNPROCESSABLE_ENTITY,
+      );
     }
     await this.favsModel.addTrack(trackData);
     return trackData;
@@ -40,7 +48,7 @@ export class FavsService {
   async deleteTrack(id: string) {
     await this.checkId(id);
     const isTrackDeleted = await this.favsModel.deleteTrack(id);
-    if(!isTrackDeleted) {
+    if (!isTrackDeleted) {
       throw new HttpException('Track is not favorite', HttpStatus.NOT_FOUND);
     }
   }
@@ -50,7 +58,10 @@ export class FavsService {
     const artistData = await this.artistModel.getArtistById(id);
 
     if (!artistData) {
-      throw new HttpException(USER_MESSAGE.not_found, HttpStatus.UNPROCESSABLE_ENTITY);
+      throw new HttpException(
+        USER_MESSAGE.not_found,
+        HttpStatus.UNPROCESSABLE_ENTITY,
+      );
     }
     await this.favsModel.addArtist(artistData);
     return artistData;
@@ -59,7 +70,7 @@ export class FavsService {
   async deleteArtist(id: string) {
     await this.checkId(id);
     const isArtistDeleted = await this.favsModel.deleteArtist(id);
-    if(!isArtistDeleted) {
+    if (!isArtistDeleted) {
       throw new HttpException('Track is not favorite', HttpStatus.NOT_FOUND);
     }
   }
@@ -69,7 +80,10 @@ export class FavsService {
     const albumData = await this.albumModel.getAlbumById(id);
 
     if (!albumData) {
-      throw new HttpException(USER_MESSAGE.not_found, HttpStatus.UNPROCESSABLE_ENTITY);
+      throw new HttpException(
+        USER_MESSAGE.not_found,
+        HttpStatus.UNPROCESSABLE_ENTITY,
+      );
     }
     await this.favsModel.addAlbum(albumData);
     return albumData;
@@ -78,7 +92,7 @@ export class FavsService {
   async deleteAlbum(id: string) {
     await this.checkId(id);
     const isAlbumDeleted = await this.favsModel.deleteAlbum(id);
-    if(!isAlbumDeleted) {
+    if (!isAlbumDeleted) {
       throw new HttpException('Track is not favorite', HttpStatus.NOT_FOUND);
     }
   }

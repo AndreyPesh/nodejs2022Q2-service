@@ -21,7 +21,7 @@ export class ArtistModel {
 
   async updateArtist(id: string, artistData: CreateArtistDto) {
     const currentArtist = await this.getArtistById(id);
-    Object.assign(currentArtist, artistData)
+    Object.assign(currentArtist, artistData);
     return currentArtist;
   }
 
@@ -34,4 +34,3 @@ export class ArtistModel {
     return true;
   }
 }
-

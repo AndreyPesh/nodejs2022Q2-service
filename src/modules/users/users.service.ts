@@ -1,8 +1,4 @@
-import {
-  HttpException,
-  HttpStatus,
-  Injectable,
-} from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { UserModel } from 'src/modules/users/model/user-model';
 import { USER_MESSAGE } from 'src/utils/constant';
 import { validateDataUser, validateUpdateData } from 'src/utils/user';
@@ -21,7 +17,10 @@ export class UsersService {
     const isValidId = validateId(id);
 
     if (!isValidId) {
-      throw new HttpException(USER_MESSAGE.id_not_valid, HttpStatus.BAD_REQUEST);
+      throw new HttpException(
+        USER_MESSAGE.id_not_valid,
+        HttpStatus.BAD_REQUEST,
+      );
     }
     const userData = await this.userModel.getUserById(id);
 
@@ -46,7 +45,10 @@ export class UsersService {
     const isValidId = validateId(id);
     const isDataValid = validateUpdateData(updateData);
     if (!isValidId || !isDataValid) {
-      throw new HttpException(USER_MESSAGE.id_not_valid, HttpStatus.BAD_REQUEST);
+      throw new HttpException(
+        USER_MESSAGE.id_not_valid,
+        HttpStatus.BAD_REQUEST,
+      );
     }
 
     const userData = await this.userModel.getUserById(id);
@@ -56,8 +58,11 @@ export class UsersService {
     }
 
     const isUpdated = await this.userModel.updateUser(id, updateData);
-    if(!isUpdated) {
-      throw new HttpException(USER_MESSAGE.wrong_old_password, HttpStatus.FORBIDDEN);
+    if (!isUpdated) {
+      throw new HttpException(
+        USER_MESSAGE.wrong_old_password,
+        HttpStatus.FORBIDDEN,
+      );
     }
     return isUpdated;
   }
@@ -66,11 +71,14 @@ export class UsersService {
     const isValidId = validateId(id);
 
     if (!isValidId) {
-      throw new HttpException(USER_MESSAGE.id_not_valid, HttpStatus.BAD_REQUEST);
+      throw new HttpException(
+        USER_MESSAGE.id_not_valid,
+        HttpStatus.BAD_REQUEST,
+      );
     }
 
     const isUserDeleted = await this.userModel.deleteUserById(id);
-    
+
     if (!isUserDeleted) {
       throw new HttpException(USER_MESSAGE.not_found, HttpStatus.NOT_FOUND);
     }

@@ -1,5 +1,12 @@
-import { Controller, Delete, Get, HttpCode, HttpStatus, Param, Post } from '@nestjs/common';
-import { Track } from '../track/interfaces/track-interface';
+import {
+  Controller,
+  Delete,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Param,
+  Post,
+} from '@nestjs/common';
 import { FavsService } from './favs.service';
 
 @Controller('favs')

@@ -2,12 +2,13 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { ARTIST_MESSAGE, USER_MESSAGE } from 'src/utils/constant';
 import { validateDataTrack } from 'src/utils/track';
 import { validateId } from 'src/utils/uuid';
+import { FavsModel } from '../favs/model/favs-model';
 import { CreateTrackDto } from './dto/create-track-dto';
 import { TrackModel } from './model/track-model';
 
 @Injectable()
 export class TrackService {
-  constructor(private trackModel: TrackModel) {}
+  constructor(private trackModel: TrackModel, private favsModel: FavsModel) {}
 
   async getAllTrack() {
     return this.trackModel.getAllTrack();
@@ -82,5 +83,11 @@ export class TrackService {
     if (!isTrackDeleted) {
       throw new HttpException(USER_MESSAGE.not_found, HttpStatus.NOT_FOUND);
     }
+    const listFavs = await this.favsModel.getAllFavs();
+    listFavs.tracks.forEach((track, index) => {
+      if (track.id === id) {
+        listFavs.tracks.splice(index, 1);
+      }
+    });
   }
 }
