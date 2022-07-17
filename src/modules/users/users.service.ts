@@ -10,7 +10,11 @@ import { UpdateUserPasswordDto } from './dto/update-password.dto';
 export class UsersService {
   constructor(private readonly userModel: UserModel) {}
   async getAllUsers() {
-    return this.userModel.getAllUsers();
+    const listUsers = await this.userModel.getAllUsers();
+    if(listUsers.length) {
+      listUsers.forEach(user => delete user.password);
+    }
+    return listUsers;
   }
 
   async getUserById(id: string) {
@@ -27,7 +31,9 @@ export class UsersService {
     if (!userData) {
       throw new HttpException(USER_MESSAGE.not_found, HttpStatus.NOT_FOUND);
     }
-    return userData;
+    const userDataWithoutPass = {...userData};
+    delete userDataWithoutPass.password;
+    return userDataWithoutPass;
   }
 
   async createUser(createUserDto: CreateUserDto) {

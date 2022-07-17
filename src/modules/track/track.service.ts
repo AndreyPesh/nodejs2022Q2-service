@@ -1,5 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { ARTIST_MESSAGE, USER_MESSAGE } from 'src/utils/constant';
+import { ARTIST_MESSAGE, USER_MESSAGE, TRACK_MESSAGE } from 'src/utils/constant';
 import { validateDataTrack } from 'src/utils/track';
 import { validateId } from 'src/utils/uuid';
 import { FavsModel } from '../favs/model/favs-model';
@@ -26,7 +26,7 @@ export class TrackService {
     const trackData = await this.trackModel.getTrackById(id);
 
     if (!trackData) {
-      throw new HttpException(USER_MESSAGE.not_found, HttpStatus.NOT_FOUND);
+      throw new HttpException(TRACK_MESSAGE.not_found, HttpStatus.NOT_FOUND);
     }
     return trackData;
   }
@@ -55,7 +55,7 @@ export class TrackService {
     const trackData = await this.trackModel.getTrackById(id);
 
     if (!trackData) {
-      throw new HttpException(USER_MESSAGE.not_found, HttpStatus.NOT_FOUND);
+      throw new HttpException(TRACK_MESSAGE.not_found, HttpStatus.NOT_FOUND);
     }
 
     const isUpdated = await this.trackModel.updateTrack(id, updateData);
@@ -81,7 +81,7 @@ export class TrackService {
     const isTrackDeleted = await this.trackModel.deleteTrackById(id);
 
     if (!isTrackDeleted) {
-      throw new HttpException(USER_MESSAGE.not_found, HttpStatus.NOT_FOUND);
+      throw new HttpException(TRACK_MESSAGE.not_found, HttpStatus.NOT_FOUND);
     }
     const listFavs = await this.favsModel.getAllFavs();
     listFavs.tracks.forEach((track, index) => {

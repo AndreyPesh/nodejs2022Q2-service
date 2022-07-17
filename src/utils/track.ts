@@ -3,7 +3,7 @@ import { CreateTrackDto } from 'src/modules/track/dto/create-track-dto';
 
 export function createTrack(trackData: CreateTrackDto) {
   const id = uuidv4();
-  return Object.assign(trackData, { id });
+  return Object.assign({ id }, trackData);
 }
 
 export function validateDataTrack(trackData: CreateTrackDto) {

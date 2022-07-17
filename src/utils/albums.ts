@@ -4,7 +4,7 @@ import { isString } from 'class-validator';
 
 export function createAlbum(albumData: CreateAlbumDto) {
   const id = uuidv4();
-  return Object.assign(albumData, { id });
+  return Object.assign({ id }, albumData);
 }
 
 export function validateDataAlbum(albumData: CreateAlbumDto) {

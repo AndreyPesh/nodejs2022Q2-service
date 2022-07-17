@@ -5,6 +5,15 @@ export const USER_MESSAGE = {
   wrong_old_password: 'oldPassword is wrong',
 };
 
+export const TRACK_MESSAGE = {
+  not_found: 'Track not found',
+}
+
+export const ALBUM_MESSAGE = {
+  not_found: 'Album not found',
+}
+
 export const ARTIST_MESSAGE = {
   no_fields_required: 'Request body does not contain required fields',
+  not_found: 'Artist not found',
 };

@@ -1,5 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { USER_MESSAGE } from 'src/utils/constant';
+import { ALBUM_MESSAGE, ARTIST_MESSAGE, TRACK_MESSAGE, USER_MESSAGE } from 'src/utils/constant';
 import { validateId } from 'src/utils/uuid';
 import { AlbumModel } from '../album/model/album-model';
 import { ArtistModel } from '../artists/model/artist-model';
@@ -37,7 +37,7 @@ export class FavsService {
 
     if (!trackData) {
       throw new HttpException(
-        USER_MESSAGE.not_found,
+        TRACK_MESSAGE.not_found,
         HttpStatus.UNPROCESSABLE_ENTITY,
       );
     }
@@ -59,7 +59,7 @@ export class FavsService {
 
     if (!artistData) {
       throw new HttpException(
-        USER_MESSAGE.not_found,
+        ARTIST_MESSAGE.not_found,
         HttpStatus.UNPROCESSABLE_ENTITY,
       );
     }
@@ -71,7 +71,7 @@ export class FavsService {
     await this.checkId(id);
     const isArtistDeleted = await this.favsModel.deleteArtist(id);
     if (!isArtistDeleted) {
-      throw new HttpException('Track is not favorite', HttpStatus.NOT_FOUND);
+      throw new HttpException('Artist is not favorite', HttpStatus.NOT_FOUND);
     }
   }
 
@@ -81,7 +81,7 @@ export class FavsService {
 
     if (!albumData) {
       throw new HttpException(
-        USER_MESSAGE.not_found,
+        ALBUM_MESSAGE.not_found,
         HttpStatus.UNPROCESSABLE_ENTITY,
       );
     }
@@ -93,7 +93,7 @@ export class FavsService {
     await this.checkId(id);
     const isAlbumDeleted = await this.favsModel.deleteAlbum(id);
     if (!isAlbumDeleted) {
-      throw new HttpException('Track is not favorite', HttpStatus.NOT_FOUND);
+      throw new HttpException('Album is not favorite', HttpStatus.NOT_FOUND);
     }
   }
 }

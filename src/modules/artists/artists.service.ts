@@ -36,7 +36,7 @@ export class ArtistsService {
     const artistData = await this.artistsModel.getArtistById(id);
 
     if (!artistData) {
-      throw new HttpException(USER_MESSAGE.not_found, HttpStatus.NOT_FOUND);
+      throw new HttpException(ARTIST_MESSAGE.not_found, HttpStatus.NOT_FOUND);
     }
     return artistData;
   }
@@ -65,7 +65,7 @@ export class ArtistsService {
     const artistData = await this.artistsModel.getArtistById(id);
 
     if (!artistData) {
-      throw new HttpException(USER_MESSAGE.not_found, HttpStatus.NOT_FOUND);
+      throw new HttpException(ARTIST_MESSAGE.not_found, HttpStatus.NOT_FOUND);
     }
 
     const isUpdated = await this.artistsModel.updateArtist(id, updateData);
@@ -91,7 +91,7 @@ export class ArtistsService {
     const isUserDeleted = await this.artistsModel.deleteArtistById(id);
 
     if (!isUserDeleted) {
-      throw new HttpException(USER_MESSAGE.not_found, HttpStatus.NOT_FOUND);
+      throw new HttpException(ARTIST_MESSAGE.not_found, HttpStatus.NOT_FOUND);
     }
     const listTracks = await this.trackModel.getAllTrack();
     listTracks.forEach((track) => {

@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { validateDataAlbum } from 'src/utils/albums';
-import { ARTIST_MESSAGE, USER_MESSAGE } from 'src/utils/constant';
+import { ALBUM_MESSAGE, ARTIST_MESSAGE, USER_MESSAGE } from 'src/utils/constant';
 import { validateId } from 'src/utils/uuid';
 import { FavsModel } from '../favs/model/favs-model';
 import { TrackModel } from '../track/model/track-model';
@@ -30,7 +30,7 @@ export class AlbumService {
     const albumData = await this.albumModel.getAlbumById(id);
 
     if (!albumData) {
-      throw new HttpException(USER_MESSAGE.not_found, HttpStatus.NOT_FOUND);
+      throw new HttpException(ALBUM_MESSAGE.not_found, HttpStatus.NOT_FOUND);
     }
     return albumData;
   }
@@ -59,7 +59,7 @@ export class AlbumService {
     const albumData = await this.albumModel.getAlbumById(id);
 
     if (!albumData) {
-      throw new HttpException(USER_MESSAGE.not_found, HttpStatus.NOT_FOUND);
+      throw new HttpException(ALBUM_MESSAGE.not_found, HttpStatus.NOT_FOUND);
     }
 
     const isUpdated = await this.albumModel.updateAlbum(id, updateData);
@@ -85,7 +85,7 @@ export class AlbumService {
     const isAlbumDeleted = await this.albumModel.deleteAlbumById(id);
 
     if (!isAlbumDeleted) {
-      throw new HttpException(USER_MESSAGE.not_found, HttpStatus.NOT_FOUND);
+      throw new HttpException(ALBUM_MESSAGE.not_found, HttpStatus.NOT_FOUND);
     }
     const listTracks = await this.trackModel.getAllTrack();
     listTracks.forEach((track) => {
