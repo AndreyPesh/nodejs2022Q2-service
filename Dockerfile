@@ -1,10 +1,10 @@
-FROM node
+FROM node:18.6-alpine
 
 WORKDIR /app
 
-COPY package.json .
+COPY package.json ./
 
-RUN npm install
+RUN npm install && npm cache clean --force
 
 COPY . .
 
