@@ -1,92 +1,41 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { UserModel } from 'src/modules/users/model/user-model';
-import { USER_MESSAGE } from 'src/utils/constant';
-import { validateDataUser, validateUpdateData } from 'src/utils/user';
-import { validateId } from 'src/utils/uuid';
+import {
+  Injectable,
+} from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { UserEntity } from './entities/user.entity';
+import { Repository } from 'typeorm';
+import { v4 as uuidv4 } from 'uuid';
 import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserPasswordDto } from './dto/update-password.dto';
 
 @Injectable()
 export class UsersService {
-  constructor(private readonly userModel: UserModel) {}
+  constructor(
+    @InjectRepository(UserEntity)
+    private readonly userRepository: Repository<UserEntity>,
+  ) {}
+
+  async createUser(createDto: CreateUserDto) {
+
+    const newUser = {
+      id: uuidv4(),
+      ...createDto,
+      version: 1,
+    };
+
+    const createdUser = this.userRepository.create(newUser);
+
+    return (await this.userRepository.save(createdUser)).toResponse();
+  }
+
+  async getUserById(userId: string) {}
+
   async getAllUsers() {
-    const listUsers = await this.userModel.getAllUsers();
-    if (listUsers.length) {
-      listUsers.forEach((user) => delete user.password);
-    }
-    return listUsers;
+    const users = await this.userRepository.find();
+    return users.map((user) => user.toResponse());
   }
 
-  async getUserById(id: string) {
-    const isValidId = validateId(id);
+  async updateUser(dto: string, userId: string) {}
 
-    if (!isValidId) {
-      throw new HttpException(
-        USER_MESSAGE.id_not_valid,
-        HttpStatus.BAD_REQUEST,
-      );
-    }
-    const userData = await this.userModel.getUserById(id);
-
-    if (!userData) {
-      throw new HttpException(USER_MESSAGE.not_found, HttpStatus.NOT_FOUND);
-    }
-    const userDataWithoutPass = { ...userData };
-    delete userDataWithoutPass.password;
-    return userDataWithoutPass;
-  }
-
-  async createUser(createUserDto: CreateUserDto) {
-    const isDataValid = validateDataUser(createUserDto);
-    if (!isDataValid) {
-      throw new HttpException(
-        USER_MESSAGE.no_fields_user,
-        HttpStatus.BAD_REQUEST,
-      );
-    }
-    return this.userModel.createUser(createUserDto);
-  }
-
-  async updateUser(id: string, updateData: UpdateUserPasswordDto) {
-    const isValidId = validateId(id);
-    const isDataValid = validateUpdateData(updateData);
-    if (!isValidId || !isDataValid) {
-      throw new HttpException(
-        USER_MESSAGE.id_not_valid,
-        HttpStatus.BAD_REQUEST,
-      );
-    }
-
-    const userData = await this.userModel.getUserById(id);
-
-    if (!userData) {
-      throw new HttpException(USER_MESSAGE.not_found, HttpStatus.NOT_FOUND);
-    }
-
-    const isUpdated = await this.userModel.updateUser(id, updateData);
-    if (!isUpdated) {
-      throw new HttpException(
-        USER_MESSAGE.wrong_old_password,
-        HttpStatus.FORBIDDEN,
-      );
-    }
-    return isUpdated;
-  }
-
-  async deleteUserById(id: string) {
-    const isValidId = validateId(id);
-
-    if (!isValidId) {
-      throw new HttpException(
-        USER_MESSAGE.id_not_valid,
-        HttpStatus.BAD_REQUEST,
-      );
-    }
-
-    const isUserDeleted = await this.userModel.deleteUserById(id);
-
-    if (!isUserDeleted) {
-      throw new HttpException(USER_MESSAGE.not_found, HttpStatus.NOT_FOUND);
-    }
-  }
+  async deleteUser(userId: string): Promise<void> {}
 }
+
