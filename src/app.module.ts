@@ -11,7 +11,7 @@ import { UsersModule } from './modules/users/users.module';
 import { typeOrmConfig } from './ormconfig';
 
 @Module({
-  imports: [UsersModule, TypeOrmModule.forRootAsync(typeOrmConfig),],
+  imports: [UsersModule, AlbumModule, TypeOrmModule.forRootAsync(typeOrmConfig),],
   controllers: [AppController],
   providers: [AppService],
 })

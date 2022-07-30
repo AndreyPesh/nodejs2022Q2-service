@@ -37,9 +37,35 @@ export class migrationN1658838941963 implements MigrationInterface {
       }),
       true,
     );
+    await queryRunner.createTable(
+      new Table({
+        name: 'album',
+        columns: [
+          {
+            name: 'id',
+            type: 'uuid',
+            isPrimary: true,
+          },
+          {
+            name: 'name',
+            type: 'varchar',
+          },
+          {
+            name: 'year',
+            type: 'int4',
+          },
+          {
+            name: 'artistId',
+            type: 'uuid',
+          },
+        ],
+      }),
+      true,
+    );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.dropTable('user');
+    await queryRunner.dropTable('album');
   }
 }

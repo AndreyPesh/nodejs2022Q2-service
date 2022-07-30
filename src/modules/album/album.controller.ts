@@ -10,8 +10,7 @@ import {
   Put,
 } from '@nestjs/common';
 import { AlbumService } from './album.service';
-import { CreateAlbumDto } from './dto/create-album-dto';
-import { Album } from './interfaces/album-interface';
+import { CreateAlbumDto } from './dto/create-album.dto';
 
 @Controller('album')
 export class AlbumController {
@@ -22,7 +21,7 @@ export class AlbumController {
   }
 
   @Get(':id')
-  getAlbumById(@Param('id') id: string): Promise<Album> {
+  getAlbumById(@Param('id') id: string) {
     return this.albumService.getAlbumById(id);
   }
 
