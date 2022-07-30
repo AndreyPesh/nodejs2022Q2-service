@@ -22,6 +22,15 @@ export class ArtistsService {
     }
   }
 
+  async getArtistPure(id: string) {
+    const artistData = await this.artistRepository.findOne({ where: { id } });
+
+    if (!artistData) {
+      return false;
+    }
+    return artistData;
+  }
+
   async getArtist(id: string) {
     const artistData = await this.artistRepository.findOne({ where: { id } });
 

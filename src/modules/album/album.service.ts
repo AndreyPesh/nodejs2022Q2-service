@@ -22,6 +22,15 @@ export class AlbumService {
     }
   }
 
+  async getAlbumPure(id: string) {
+    const albumData = await this.albumRepository.findOne({ where: { id } });
+
+    if (!albumData) {
+      return false;
+    }
+    return albumData;
+  }
+
   async getAlbum(id: string) {
     const albumData = await this.albumRepository.findOne({
       where: { id },

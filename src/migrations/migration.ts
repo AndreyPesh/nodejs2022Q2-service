@@ -31,7 +31,7 @@ export class migrationN1658838941963 implements MigrationInterface {
           {
             name: 'updatedAt',
             type: 'timestamp',
-            default: 'now()'
+            default: 'now()',
           },
         ],
       }),
@@ -83,11 +83,67 @@ export class migrationN1658838941963 implements MigrationInterface {
       }),
       true,
     );
+    await queryRunner.createTable(
+      new Table({
+        name: 'track',
+        columns: [
+          {
+            name: 'id',
+            type: 'uuid',
+            isPrimary: true,
+          },
+          {
+            name: 'name',
+            type: 'varchar',
+          },
+          {
+            name: 'artistId',
+            type: 'uuid',
+          },
+          {
+            name: 'albumId',
+            type: 'uuid',
+          },
+          {
+            name: 'duration',
+            type: 'int4',
+          },
+        ],
+      }),
+      true,
+    );
+    await queryRunner.createTable(
+      new Table({
+        name: 'favs',
+        columns: [
+          {
+            name: 'id',
+            type: 'uuid',
+            isPrimary: true,
+          },
+          {
+            name: 'artists',
+            type: 'text',
+          },
+          {
+            name: 'albums',
+            type: 'text',
+          },
+          {
+            name: 'tracks',
+            type: 'text',
+          },
+        ],
+      }),
+      true,
+    );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.dropTable('user');
     await queryRunner.dropTable('album');
     await queryRunner.dropTable('artist');
+    await queryRunner.dropTable('track');
+    await queryRunner.dropTable('favs');
   }
 }

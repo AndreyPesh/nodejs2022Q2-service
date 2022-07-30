@@ -12,7 +12,7 @@ export const typeOrmConfig: TypeOrmModuleOptions = {
     database: config.get<string>('POSTGRES_DB'),
     port: config.get<number>('POSTGRES_PORT'),
     entities: [__dirname + 'dist/**/*.entity{.ts,.js}'],
-    synchronize: false,
+    synchronize: true,
     autoLoadEntities: true,
     logging: true,
     migrationsRun: true,

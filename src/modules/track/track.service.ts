@@ -22,6 +22,15 @@ export class TrackService {
     }
   }
 
+  async getTrackPure(id: string) {
+    const trackData = await this.trackRepository.findOne({ where: { id } });
+
+    if (!trackData) {
+      return false;
+    }
+    return trackData;
+  }
+
   async getTrack(id: string) {
     const trackData = await this.trackRepository.findOne({ where: { id } });
     if (!trackData) {

@@ -1,4 +1,7 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Exclude } from 'class-transformer';
+import { AlbumEntity } from 'src/modules/album/entities/album.entity';
+import { ArtistEntity } from 'src/modules/artists/entities/artist.entity';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('track')
 export class TrackEntity {
@@ -16,4 +19,18 @@ export class TrackEntity {
 
   @Column()
   duration: number;
+
+  @ManyToOne(() => AlbumEntity, (album) => album.tracks, {
+    nullable: true,
+    onDelete: 'SET NULL',
+  })
+  @Exclude()
+  album: AlbumEntity;
+
+  @ManyToOne(() => ArtistEntity, (artist) => artist.tracks, {
+    nullable: true,
+    onDelete: 'SET NULL',
+  })
+  @Exclude()
+  artist: ArtistEntity;
 }
