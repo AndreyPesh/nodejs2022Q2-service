@@ -28,3 +28,7 @@ git checkout docker
 ```
   npm run scan:db
 ```
+### host
+```
+  http://localhost:4000/
+```

@@ -9,7 +9,8 @@ services:
     depends_on:
       - postgres
     volumes:
-      - app_volume:/app
+      - ./:/app
+      - nodemodules:/app/node_modules
     networks: 
       - postgres
     environment: 
@@ -40,5 +41,5 @@ networks:
   postgres:
     driver: bridge
 volumes:
-  app_volume:
   postgres_volume:
+  nodemodules:
