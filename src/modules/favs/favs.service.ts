@@ -15,7 +15,10 @@ import {
 import { validateId } from 'src/utils/uuid';
 import { Repository } from 'typeorm';
 import { AlbumService } from '../album/album.service';
+import { AlbumEntity } from '../album/entities/album.entity';
 import { ArtistsService } from '../artists/artists.service';
+import { ArtistEntity } from '../artists/entities/artist.entity';
+import { TrackEntity } from '../track/entities/track.entity';
 import { TrackService } from '../track/track.service';
 import { FavsEntity } from './entities/favs.entity';
 
@@ -52,27 +55,32 @@ export class FavsService {
     }
 
     const createdFavs = this.favsRepository.create({
-      artists: [],
-      albums: [],
-      tracks: [],
+      artists: [] as Array<string>,
+      albums: [] as Array<string>,
+      tracks: [] as Array<string>,
     });
 
     return (await this.favsRepository.save(createdFavs)).id;
   }
 
-  async getAllFavs() {
-    const id = await this.getFavsId();
+  async getCurrentFavs() {
+    const idFavs = await this.getFavsId();
     const allFavs = await this.favsRepository.findOne({
-      where: { id },
+      where: { id: idFavs },
     });
-    const tracks = [];
+    return { allFavs, idFavs };
+  }
+
+  async getAllFavs() {
+    const { allFavs } = await this.getCurrentFavs();
+    const tracks: TrackEntity[] = [];
     for (const trackId of allFavs.tracks) {
       try {
         const currTrack = await this.trackService.getTrackById(trackId);
         tracks.push(currTrack);
       } catch {}
     }
-    const albums = [];
+    const albums: AlbumEntity[] = [];
     for (const albumId of allFavs.albums) {
       try {
         const currAlbum = await this.albumService.getAlbumById(albumId);
@@ -80,17 +88,15 @@ export class FavsService {
       } catch {}
     }
 
-    const artists = [];
-    for (const artistId of allFavs.artists) {
+    const artists: ArtistEntity[] = [];
+    for (const artist of allFavs.artists) {
       try {
-        const curraArtist = await this.artistService.getArtistById(artistId);
-        artists.push(curraArtist);
+        const currArtist = await this.artistService.getArtistById(artist);
+        artists.push(currArtist);
       } catch {}
     }
 
     return { artists, albums, tracks };
-    // const { artists, albums, tracks } = allFavs;
-    // return { artists, albums, tracks };
   }
 
   async addArtist(id: string) {
@@ -103,30 +109,28 @@ export class FavsService {
         HttpStatus.UNPROCESSABLE_ENTITY,
       );
     }
-    const favsId = await this.getFavsId();
-    const favs = await this.favsRepository.findOne({
-      where: { id: favsId },
-    });
-    favs.artists.push(artistData.id);
-    const data = this.favsRepository.create(favs);
-    await this.favsRepository.save(data);
-    // return artistData;
+
+    const { allFavs, idFavs } = await this.getCurrentFavs();
+
+    if (!allFavs.artists.find((artistId) => artistId === artistData.id)) {
+      allFavs.artists.push(artistData.id);
+      await this.favsRepository.update(idFavs, allFavs);
+    }
   }
 
   async deleteArtist(id: string) {
     await this.checkId(id);
-    const favsId = await this.getFavsId();
-    const favs = await this.favsRepository.findOne({
-      where: { id: favsId },
-    });
-    const indexArtist = favs.artists.findIndex((artistId) => artistId === id);
+    const { allFavs, idFavs } = await this.getCurrentFavs();
+    const indexArtist = allFavs.artists.findIndex(
+      (artistId) => artistId === id,
+    );
 
     if (indexArtist === -1) {
       throw new HttpException('Artist is not favorite', HttpStatus.NOT_FOUND);
     }
 
-    favs.artists.splice(indexArtist, 1);
-    await this.favsRepository.save(favs);
+    allFavs.artists.splice(indexArtist, 1);
+    await this.favsRepository.update(idFavs, allFavs);
   }
 
   async addTrack(id: string) {
@@ -139,30 +143,25 @@ export class FavsService {
         HttpStatus.UNPROCESSABLE_ENTITY,
       );
     }
-    // const favs = await this.getAllFavs();
-    const favsId = await this.getFavsId();
-    const favs = await this.favsRepository.findOne({
-      where: { id: favsId },
-    });
-    favs.tracks.push(trackData.id);
-    const data = this.favsRepository.create(favs);
-    await this.favsRepository.save(data);
+    const { allFavs, idFavs } = await this.getCurrentFavs();
+
+    if (!allFavs.tracks.find((trackId) => trackId === trackData.id)) {
+      allFavs.tracks.push(trackData.id);
+      await this.favsRepository.update(idFavs, allFavs);
+    }
   }
 
   async deleteTrack(id: string) {
     await this.checkId(id);
-    const favsId = await this.getFavsId();
-    const favs = await this.favsRepository.findOne({
-      where: { id: favsId },
-    });
-    const indexTrack = favs.tracks.findIndex((trackId) => trackId === id);
+    const { allFavs, idFavs } = await this.getCurrentFavs();
+    const indexTrack = allFavs.tracks.findIndex((trackId) => trackId === id);
 
     if (indexTrack === -1) {
       throw new HttpException('Album is not favorite', HttpStatus.NOT_FOUND);
     }
 
-    favs.tracks.splice(indexTrack, 1);
-    await this.favsRepository.save(favs);
+    allFavs.tracks.splice(indexTrack, 1);
+    await this.favsRepository.update(idFavs, allFavs);
   }
 
   async addAlbum(id: string) {
@@ -175,28 +174,23 @@ export class FavsService {
         HttpStatus.UNPROCESSABLE_ENTITY,
       );
     }
-    const favsId = await this.getFavsId();
-    const favs = await this.favsRepository.findOne({
-      where: { id: favsId },
-    });
-    favs.albums.push(albumData.id);
-    const data = this.favsRepository.create(favs);
-    await this.favsRepository.save(data);
+    const { allFavs, idFavs } = await this.getCurrentFavs();
+    if (!allFavs.albums.find((albumId) => albumId === albumData.id)) {
+      allFavs.albums.push(albumData.id);
+      await this.favsRepository.update(idFavs, allFavs);
+    }
   }
 
   async deleteAlbum(id: string) {
     await this.checkId(id);
-    const favsId = await this.getFavsId();
-    const favs = await this.favsRepository.findOne({
-      where: { id: favsId },
-    });
-    const indexAlbum = favs.albums.findIndex((albumId) => albumId === id);
+    const { allFavs, idFavs } = await this.getCurrentFavs();
+    const indexAlbum = allFavs.albums.findIndex((albumId) => albumId === id);
 
     if (indexAlbum === -1) {
       throw new HttpException('Album is not favorite', HttpStatus.NOT_FOUND);
     }
 
-    favs.albums.splice(indexAlbum, 1);
-    await this.favsRepository.save(favs);
+    allFavs.albums.splice(indexAlbum, 1);
+    await this.favsRepository.update(idFavs, allFavs);
   }
 }
