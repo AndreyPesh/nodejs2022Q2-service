@@ -15,12 +15,20 @@ git checkout docker
 ```
 
 
-### create image app
+### build images and run multi-container
 ```
-  docker build -t app:v1 .
+  npm run docker
 ```
 
-### create container app
+### scan image app
 ```
-  docker run -d -p 4000:4000 app:v1
+  npm run scan:app
+```
+### scan image database
+```
+  npm run scan:db
+```
+### host
+```
+  http://localhost:4000/
 ```
