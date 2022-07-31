@@ -10,25 +10,29 @@ git clone {repository URL}
 
 ```
 cd nodejs2022Q2-service
-git checkout docker
+git checkout orm
 
 ```
-
 
 ### build images and run multi-container
 ```
   npm run docker
 ```
 
-### scan image app
-```
-  npm run scan:app
-```
-### scan image database
-```
-  npm run scan:db
-```
 ### host
 ```
   http://localhost:4000/
 ```
+
+### run test
+```
+  npm run test
+```
+
+### run lint
+```
+  npm run lint
+```
+
+### swagger UI
+  [localhost:4000/doc](http://localhost:4000/doc)

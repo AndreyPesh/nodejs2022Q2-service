@@ -1,5 +1,5 @@
-import { ConfigModule, ConfigService } from "@nestjs/config";
-import { TypeOrmModuleOptions } from "@nestjs/typeorm";
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 
 export const typeOrmConfig: TypeOrmModuleOptions = {
   imports: [ConfigModule],
@@ -12,7 +12,7 @@ export const typeOrmConfig: TypeOrmModuleOptions = {
     database: config.get<string>('POSTGRES_DB'),
     port: config.get<number>('POSTGRES_PORT'),
     entities: [__dirname + 'dist/**/*.entity{.ts,.js}'],
-    synchronize: false,
+    synchronize: true,
     autoLoadEntities: true,
     logging: true,
     migrationsRun: true,
@@ -24,5 +24,5 @@ export const typeOrmConfig: TypeOrmModuleOptions = {
     cli: {
       migrationsDir: 'src/migrations',
     },
-  })
+  }),
 } as TypeOrmModuleOptions;

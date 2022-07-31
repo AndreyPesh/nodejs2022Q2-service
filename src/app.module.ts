@@ -1,5 +1,4 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -11,7 +10,14 @@ import { UsersModule } from './modules/users/users.module';
 import { typeOrmConfig } from './ormconfig';
 
 @Module({
-  imports: [UsersModule, TypeOrmModule.forRootAsync(typeOrmConfig),],
+  imports: [
+    UsersModule,
+    AlbumModule,
+    ArtistsModule,
+    TrackModule,
+    FavsModule,
+    TypeOrmModule.forRootAsync(typeOrmConfig),
+  ],
   controllers: [AppController],
   providers: [AppService],
 })

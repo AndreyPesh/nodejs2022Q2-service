@@ -10,7 +10,6 @@ import {
   Put,
 } from '@nestjs/common';
 import { CreateTrackDto } from './dto/create-track-dto';
-import { Track } from './interfaces/track-interface';
 import { TrackService } from './track.service';
 
 @Controller('track')
@@ -22,7 +21,7 @@ export class TrackController {
   }
 
   @Get(':id')
-  getTrackById(@Param('id') id: string): Promise<Track> {
+  getTrackById(@Param('id') id: string) {
     return this.trackService.getTrackById(id);
   }
 
