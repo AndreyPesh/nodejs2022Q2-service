@@ -1,5 +1,5 @@
-import { ConfigModule, ConfigService } from "@nestjs/config";
-import { TypeOrmModuleOptions } from "@nestjs/typeorm";
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 
 export const typeOrmConfig: TypeOrmModuleOptions = {
   imports: [ConfigModule],
@@ -24,5 +24,5 @@ export const typeOrmConfig: TypeOrmModuleOptions = {
     cli: {
       migrationsDir: 'src/migrations',
     },
-  })
+  }),
 } as TypeOrmModuleOptions;

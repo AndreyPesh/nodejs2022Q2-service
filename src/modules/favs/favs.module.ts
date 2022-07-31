@@ -16,6 +16,6 @@ import { FavsService } from './favs.service';
   ],
   controllers: [FavsController],
   providers: [FavsService],
-  exports: [FavsService]
+  exports: [FavsService],
 })
 export class FavsModule {}

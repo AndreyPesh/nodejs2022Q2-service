@@ -52,9 +52,8 @@ export class AlbumService {
   }
 
   async createAlbum(albumData: CreateAlbumDto) {
-    
-    const newAlbum = this.albumRepository.create({...albumData});
-    
+    const newAlbum = this.albumRepository.create({ ...albumData });
+
     return await this.albumRepository.save(newAlbum);
   }
 
@@ -64,7 +63,7 @@ export class AlbumService {
     await this.getAlbumById(id);
 
     await this.albumRepository.update(id, updateData);
-    
+
     return await this.getAlbum(id);
   }
 

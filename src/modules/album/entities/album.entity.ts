@@ -1,7 +1,13 @@
 import { Exclude } from 'class-transformer';
 import { ArtistEntity } from 'src/modules/artists/entities/artist.entity';
 import { TrackEntity } from 'src/modules/track/entities/track.entity';
-import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity('album')
 export class AlbumEntity {

@@ -32,3 +32,13 @@ git checkout docker
 ```
   http://localhost:4000/
 ```
+
+### run test
+```
+  npm run test
+```
+
+### run lint
+```
+  npm run lint
+```

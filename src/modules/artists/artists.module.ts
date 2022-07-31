@@ -8,6 +8,6 @@ import { ArtistEntity } from './entities/artist.entity';
   imports: [TypeOrmModule.forFeature([ArtistEntity])],
   controllers: [ArtistsController],
   providers: [ArtistsService],
-  exports:[ArtistsService]
+  exports: [ArtistsService],
 })
 export class ArtistsModule {}

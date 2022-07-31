@@ -108,7 +108,7 @@ export class FavsService {
       where: { id: favsId },
     });
     favs.artists.push(artistData.id);
-    const data =  this.favsRepository.create(favs);
+    const data = this.favsRepository.create(favs);
     await this.favsRepository.save(data);
     // return artistData;
   }
