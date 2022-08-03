@@ -14,7 +14,7 @@ export const typeOrmConfig: TypeOrmModuleOptions = {
     entities: [__dirname + 'dist/**/*.entity{.ts,.js}'],
     synchronize: true,
     autoLoadEntities: true,
-    logging: true,
+    logging: false,
     migrationsRun: true,
     migrationsTableName: 'migration',
     migrations: [

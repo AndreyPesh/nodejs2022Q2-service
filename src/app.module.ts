@@ -8,6 +8,7 @@ import { FavsModule } from './modules/favs/favs.module';
 import { TrackModule } from './modules/track/track.module';
 import { UsersModule } from './modules/users/users.module';
 import { typeOrmConfig } from './ormconfig';
+import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { typeOrmConfig } from './ormconfig';
     TrackModule,
     FavsModule,
     TypeOrmModule.forRootAsync(typeOrmConfig),
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

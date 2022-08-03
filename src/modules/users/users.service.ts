@@ -15,6 +15,14 @@ export class UsersService {
     private readonly userRepository: Repository<UserEntity>,
   ) {}
 
+  async getUserByName(login: string, password: string) {
+    const userData = await this.userRepository.findOne({
+      where: { login, password },
+    });
+
+    return userData;
+  }
+
   validateId(id: string) {
     if (!validateId(id)) {
       throw new HttpException(
