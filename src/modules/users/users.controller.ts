@@ -16,29 +16,26 @@ import { UpdateUserPasswordDto } from './dto/update-password.dto';
 import { UsersService } from './users.service';
 
 @Controller('user')
+@UseGuards(JwtAuthGuard)
 export class UsersController {
   constructor(private usersService: UsersService) {}
 
-  @UseGuards(JwtAuthGuard)
   @Get()
   getAllUsers() {
     return this.usersService.getAllUsers();
   }
 
-  @UseGuards(JwtAuthGuard)
   @Get(':id')
   getUserById(@Param('id') id: string) {
     return this.usersService.getUserById(id);
   }
 
-  @UseGuards(JwtAuthGuard)
   @Post()
   @HttpCode(HttpStatus.CREATED)
   createUser(@Body() createUserDto: CreateUserDto) {
     return this.usersService.createUser(createUserDto);
   }
 
-  @UseGuards(JwtAuthGuard)
   @Put(':id')
   updateUserPassword(
     @Param('id') id: string,
@@ -47,7 +44,6 @@ export class UsersController {
     return this.usersService.updateUser(id, updatePasswordDto);
   }
 
-  @UseGuards(JwtAuthGuard)
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
   removeUserById(@Param('id') id: string) {

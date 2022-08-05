@@ -6,10 +6,13 @@ import {
   HttpStatus,
   Param,
   Post,
+  UseGuards,
 } from '@nestjs/common';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { FavsService } from './favs.service';
 
 @Controller('favs')
+@UseGuards(JwtAuthGuard)
 export class FavsController {
   constructor(private favsService: FavsService) {}
 

@@ -8,11 +8,14 @@ import {
   Param,
   Post,
   Put,
+  UseGuards,
 } from '@nestjs/common';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { AlbumService } from './album.service';
 import { CreateAlbumDto } from './dto/create-album.dto';
 
 @Controller('album')
+@UseGuards(JwtAuthGuard)
 export class AlbumController {
   constructor(private albumService: AlbumService) {}
   @Get()

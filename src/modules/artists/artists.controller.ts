@@ -8,11 +8,14 @@ import {
   Param,
   Post,
   Put,
+  UseGuards,
 } from '@nestjs/common';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { ArtistsService } from './artists.service';
 import { CreateArtistDto } from './dto/artist-create-dto';
 
 @Controller('artist')
+@UseGuards(JwtAuthGuard)
 export class ArtistsController {
   constructor(private artistsService: ArtistsService) {}
   @Get()
