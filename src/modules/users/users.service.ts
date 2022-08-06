@@ -1,4 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import * as bcrypt from 'bcrypt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from './entities/user.entity';
 import { Repository } from 'typeorm';
@@ -7,6 +8,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { validateId } from 'src/utils/uuid';
 import { USER_MESSAGE, VALUE_START_VERSION } from 'src/utils/constant';
 import { UpdateUserPasswordDto } from './dto/update-password.dto';
+import { hashPassword } from 'src/utils/bcrypt';
 
 @Injectable()
 export class UsersService {
@@ -15,9 +17,9 @@ export class UsersService {
     private readonly userRepository: Repository<UserEntity>,
   ) {}
 
-  async getUserByName(login: string, password: string) {
+  async getUserByName(login: string) {
     const userData = await this.userRepository.findOne({
-      where: { login, password },
+      where: { login },
     });
 
     return userData;
@@ -74,14 +76,16 @@ export class UsersService {
 
     const userData = await this.getUserData(userId);
 
-    if (userData.password !== updateData.oldPassword) {
+    const isMatchOldPassword = await bcrypt.compare(updateData.oldPassword, userData.password);
+    
+    if (!isMatchOldPassword) {
       throw new HttpException(
         USER_MESSAGE.wrong_old_password,
         HttpStatus.FORBIDDEN,
       );
     }
     userData.version++;
-    userData.password = updateData.newPassword;
+    userData.password = await hashPassword(updateData.newPassword);
     return (await this.userRepository.save(userData)).toResponse();
   }
 

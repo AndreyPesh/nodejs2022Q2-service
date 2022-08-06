@@ -1,16 +1,23 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { CreateUserDto } from '../users/dto/create-user.dto';
 import { UsersService } from '../users/users.service';
 
 @Injectable()
 export class AuthService {
-  constructor(private usersService: UsersService, private jwtService: JwtService) {}
+  constructor(
+    private usersService: UsersService,
+    private jwtService: JwtService,
+  ) {}
 
   async validateUser(login: string, pass: string) {
-    const user = await this.usersService.getUserByName(login, pass);
+    const user = await this.usersService.getUserByName(login);
+    
+    let isMatchOldPassword = false;
+    if (user) isMatchOldPassword = await bcrypt.compare(pass, user.password);
 
-    if (user && user.password === pass) {
+    if (user && isMatchOldPassword) {
       const { password, ...result } = user;
       return result;
     }
