@@ -76,8 +76,11 @@ export class UsersService {
 
     const userData = await this.getUserData(userId);
 
-    const isMatchOldPassword = await bcrypt.compare(updateData.oldPassword, userData.password);
-    
+    const isMatchOldPassword = await bcrypt.compare(
+      updateData.oldPassword,
+      userData.password,
+    );
+
     if (!isMatchOldPassword) {
       throw new HttpException(
         USER_MESSAGE.wrong_old_password,

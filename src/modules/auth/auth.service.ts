@@ -21,8 +21,7 @@ export class AuthService {
       isMatchOldPassword = await bcrypt.compare(password, user.password);
 
     if (user && isMatchOldPassword) {
-      const { password, ...result } = user;
-      return result;
+      return user.toResponse();
     }
     throw new HttpException(ERROR_AUTH.FAILED, HttpStatus.FORBIDDEN);
   }
@@ -64,10 +63,7 @@ export class AuthService {
       const { id, login } = user;
       return await this.newRefreshAndAccessToken({ id, login });
     } catch {
-      throw new HttpException(
-        ERROR_AUTH.ERROR_REFRESH,
-        HttpStatus.FORBIDDEN,
-      );
+      throw new HttpException(ERROR_AUTH.ERROR_REFRESH, HttpStatus.FORBIDDEN);
     }
   }
 }
