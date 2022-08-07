@@ -10,7 +10,7 @@ git clone {repository URL}
 
 ```
 cd nodejs2022Q2-service
-git checkout orm
+git checkout auth
 
 ```
 
@@ -26,7 +26,7 @@ git checkout orm
 
 ### run test
 ```
-  npm run test
+  npm run test:auth
 ```
 
 ### run lint
